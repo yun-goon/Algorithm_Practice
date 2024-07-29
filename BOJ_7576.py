@@ -36,6 +36,7 @@ ans = -1
 for row in box:
     if 0 in row:
         ans = 0
+        break
     else:
         ans = max(max(row), ans)
 

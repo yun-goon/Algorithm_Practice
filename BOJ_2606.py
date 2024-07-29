@@ -1,26 +1,28 @@
-from collections import deque
+import sys
+input = sys.stdin.readline
 
-V = int(input())
+def dfs(now):
+    if now not in visited:
+        visited.add(now)
+
+    for after in range(N + 1):
+        if adj[now][after] and after not in visited:
+            dfs(after)
+
+N = int(input())
 E = int(input())
-adj_lst = [[] for _ in range(V+1)]
 
+adj = [[0] * (N + 1) for _ in range(N + 1)]
 for _ in range(E):
-    s,e = map(int, input().split())
-    adj_lst[s][e] = 1 # 가중치 줄땐 w
-    adj_lst[e][s] = 1 # 가중치 줄땐 w
-
+    start, end = map(int, input().split())
+    adj[start][end] = 1
+    adj[end][start] = 1
 
 visited = set()
 
-def DFS(cur):
-    visited.add(cur)
+dfs(1)
 
-    for nxt in adj_lst[cur]:
-        if nxt not in visited:
-            DFS(nxt)
-
-DFS(1)
-print(len(visited)- 1)
+print(len(visited) - 1)
 
 # # 세팅
 
@@ -57,3 +59,28 @@ print(len(visited)- 1)
 #         if visited2[nxt]:
 #             continue
 
+import sys
+input = sys.stdin.readline
+from collections import deque
+
+N = int(input())
+E = int(input())
+
+adj = [[] for _ in range(N+1)]
+for _ in range(E):
+    start, end = map(int, input().split())
+    adj[start].append(end)
+    adj[end].append(start)
+
+queue = deque([1])
+visited = set([1])
+
+while queue:
+    cnt = queue.popleft()
+
+    for nxt in adj[cnt]:
+        if nxt not in visited:
+            visited.add(nxt)
+            queue.append(nxt)
+
+print(len(visited)-1)
